@@ -33,4 +33,14 @@ export class FormService {
 
     this._rows.set(newRows)
   }
+
+  deleteField(fieldId: string) {
+    const rows = this._rows()
+    const newRows = rows.map(row => ({
+      ...row,
+      fields: row.fields.filter(field => field.id !== fieldId),
+    }))
+
+    this._rows.set(newRows)
+  }
 }

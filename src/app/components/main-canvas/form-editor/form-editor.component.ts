@@ -2,21 +2,26 @@ import { Component, inject } from '@angular/core'
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop'
 import { FormService } from '../../../services/form.service'
 import { FieldTypeDefinition, FormField } from '../../../models/field'
+import { FormFieldComponent } from '../form-field/form-field.component'
 
 @Component({
   selector: 'app-form-editor',
-  imports: [DragDropModule],
+  imports: [DragDropModule, FormFieldComponent],
   template: `
     <div class="p-4">
       @for (row of formService.rows(); track row.id) {
         <div
           class="p-5 bg-white rounded-lg border-2 border-dashed border-gray-200"
           cdkDropList
+          [cdkDropListOrientation]="'mixed'"
           (cdkDropListDropped)="onDropInRow($event, row.id)"
         >
-          @for (field of row.fields; track field.id) {
-            <div>{{ field.label }}</div>
-          }
+          <div>Row</div>
+          <div class="flex gap-4 flex-wrap">
+            @for (field of row.fields; track field.id) {
+              <app-form-field class="flex-1" [field]="field" />
+            }
+          </div>
         </div>
       }
     </div>
